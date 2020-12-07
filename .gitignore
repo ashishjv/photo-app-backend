@@ -6,7 +6,8 @@ target/
 
 ### ignore application.properties ###
 application.properties
-fir-iam-project-demo-firebase-adminsdk-p7bks-3fae6042d7.json
+firebase-iam.json
+#fir-iam-project-demo-firebase-adminsdk-p7bks-3fae6042d7.json
 
 ### STS ###
 .apt_generated
