@@ -16,6 +16,10 @@ public class AlbumService {
         return albumRepository.findAll();
     }
 
+    public List<Album> getAllAlbumsByUser(String createdBy){
+        return albumRepository.findByCreatedBy(createdBy);
+    }
+
     public Album getAlbumById(String albumId) {
         return albumRepository.findById(albumId).get();
     }

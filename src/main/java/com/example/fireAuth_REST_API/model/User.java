@@ -1,12 +1,12 @@
 package com.example.fireAuth_REST_API.model;
 
-import com.example.fireAuth_REST_API.validation.ValidateEmail;
 import javax.validation.constraints.NotEmpty;
 
 public class User {
     private String id;
     private String name;
-    @ValidateEmail(custRegex = "^[a-zA-Z0-9._]+@{1}[a-zA-Z0-9_]+[.]{1}[a-zA-Z0-9_]+[a-zA-Z0-9._]+$")
+//    @ValidateEmail(custRegex = "^[a-zA-Z0-9._]+@{1}[a-zA-Z0-9_]+[.]{1}[a-zA-Z0-9_]+[a-zA-Z0-9._]+$")
+    @NotEmpty(message = "email Id cannot be null")
     private String email;
     @NotEmpty(message = "Please add a valid profile photo URL")
     private String profilePhotoUrl;

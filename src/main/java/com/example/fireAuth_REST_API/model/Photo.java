@@ -1,14 +1,16 @@
 package com.example.fireAuth_REST_API.model;
 
 import com.example.fireAuth_REST_API.validation.ValidateEmail;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.time.LocalDate;
 
 public class Photo {
     private String id;
+    @Indexed
     private String albumId;
     private String photoUrl;
-    @ValidateEmail
+//    @ValidateEmail
     private String createdBy;
     private LocalDate dateCreated;
 

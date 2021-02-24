@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/photo")
+@RequestMapping("/api/photos")
 public class PhotoResource {
 
     @Autowired
@@ -29,8 +29,9 @@ public class PhotoResource {
         return photoService.getAllPhotos();
     }
 
-    @GetMapping("/id")
-    public Photo getPhotoById(@RequestParam(name = "photoId") String photoId) {
+    @GetMapping("/{id}")
+    public Photo getPhotoById(@PathVariable(name = "id") String photoId,
+                              @RequestHeader(name = "idToken") String idToken) {
         return photoService.getPhotoById(photoId);
     }
 
@@ -108,4 +109,23 @@ public class PhotoResource {
             throw new InvalidTokenException();
         }
     }
+
+    @GetMapping("/album")
+    public List<Photo> getPhotosFromAlbum(@RequestParam(name = "albumId") String albumId,
+                                         @RequestHeader(name = "idToken") String idToken)
+            throws
+            IOException,
+            FirebaseAuthException,
+            InvalidTokenException,
+            UserNotAuthorizedException {
+
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        if (firebaseUser != null) {
+            return photoService.getPhotoFromAlbum(albumId);
+        } else {
+            throw new InvalidTokenException();
+        }
+    }
+
 }

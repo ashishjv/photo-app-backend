@@ -26,10 +26,11 @@ public class FirebaseService {
         FirebaseApp firebaseApp = firebaseConfig.initializeFirebase();
         FirebaseToken firebaseToken = FirebaseAuth.getInstance(firebaseApp).verifyIdToken(idToken);
 
-        String uid = firebaseToken.getUid();
-        String name = firebaseToken.getName();
-        String email = firebaseToken.getEmail();
+        String uid = firebaseToken.getUid(); // Auto-generated and maintained by Firebase
+        String name = firebaseToken.getName(); //Usually this is NULL, since we did not get this during SignUp
+        String email = firebaseToken.getEmail(); // This is unique and is a mandatory for Google Firebase IAM
 
+//        System.out.println("*** UID = "+uid+" Name = "+name+" eMail = "+email);
         return new FirebaseUser(uid,name,email);
     }
 }

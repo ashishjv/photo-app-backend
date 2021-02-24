@@ -25,14 +25,44 @@ public class UserResource {
     @Autowired
     private FirebaseService firebaseService;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping("/all")
+    public List<User> getAllUsers(@RequestHeader(name = "idToken") String idToken)
+            throws FirebaseAuthException,
+            InvalidTokenException, IOException {
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+        if (firebaseUser != null) {
+            return userService.getAllUsers();
+        }
+
+        return null;
     }
 
     @GetMapping("/id")
     public User getUserById(@RequestParam(name = "userId") String userId) {
         return userService.getUserById(userId);
+    }
+
+    @GetMapping
+    public User getUserByIdToken(@RequestHeader(name = "idToken") String idToken)
+            throws IOException,
+            FirebaseAuthException,
+            InvalidTokenException {
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+        if (firebaseUser != null) {
+            return userService.getUserFromEmail(firebaseUser.getEmail());
+        } else {
+            return null;
+        }
+    }
+
+    @PostMapping("/register")
+    public User registerUser(@RequestBody @Valid User user) {
+        System.out.println("*** Registering new user = " + user.getEmail());
+        System.out.println("*** Registering new user = " + user.getName());
+        System.out.println("*** Registering new user = " + user.getId());
+        System.out.println("*** Registering new user = " + user.getProfilePhotoUrl());
+        user.setId(null);
+        return this.userService.saveUser(user);
     }
 
     @PostMapping
@@ -42,8 +72,16 @@ public class UserResource {
             IOException,
             FirebaseAuthException,
             InvalidTokenException {
-
+        System.out.println("***** DODGE THIS: Its IN POST ******");
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        System.out.println("***** DODGE THIS: Firebase Email is " + firebaseUser.getEmail());
+        System.out.println("***** DODGE THIS: User Email is " + user.getEmail());
+
+        System.out.println("*** DODGE THIS:  user.email = " + user.getEmail());
+        System.out.println("*** DODGE THIS:  user.name = " + user.getName());
+        System.out.println("*** DODGE THIS:  user.id = " + user.getId());
+        System.out.println("*** DODGE THIS:  user.profilepicurl = " + user.getProfilePhotoUrl());
 
         if (firebaseUser != null) {
             if (user.getName().equalsIgnoreCase("root")) {
@@ -110,4 +148,21 @@ public class UserResource {
             throw new InvalidTokenException();
         }
     }
+
+    @GetMapping("/makeProfilePic")
+    public User makeProfilePic(@RequestParam(name = "photoUrl") String photoUrl,
+                               @RequestHeader(name = "idToken") String idToken)
+            throws IOException, FirebaseAuthException, InvalidTokenException {
+
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        if (firebaseUser != null) {
+            User user = userService.getUserFromEmail(firebaseUser.getEmail());
+            user.setProfilePhotoUrl(photoUrl);
+            return userService.updateUser(user);
+        } else {
+            throw new InvalidTokenException();
+        }
+    }
 }
+

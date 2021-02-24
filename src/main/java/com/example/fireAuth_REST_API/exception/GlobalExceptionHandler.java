@@ -36,12 +36,12 @@ public class GlobalExceptionHandler extends Exception{
 
     @ExceptionHandler(FirebaseAuthException.class)
     public ResponseEntity<String> firebaseAuthError(FirebaseAuthException fae){
-        return new ResponseEntity<>(fae.getMessage(),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("*** GEH: "+fae.getMessage(),HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<String> invalidTokenError(InvalidTokenException ite){
-        return new ResponseEntity<>(ite.getMessage(),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("*** GEH: "+ite.getMessage(),HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(UserNotAuthorizedException.class)

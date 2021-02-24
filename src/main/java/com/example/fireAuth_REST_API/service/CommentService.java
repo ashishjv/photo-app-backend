@@ -33,4 +33,8 @@ public class CommentService {
         commentRepository.deleteById(commentId);
         return "Deletion completed";
     }
+
+    public List<Comment> getAllCommentsByPhotoId(String photoId){
+        return commentRepository.findByPhotoId(photoId);
+    }
 }

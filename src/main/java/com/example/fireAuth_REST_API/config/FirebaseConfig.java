@@ -18,7 +18,7 @@ public class FirebaseConfig {
     public FirebaseApp initializeFirebase() throws IOException {
 
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource resource = resolver.getResource("classpath:firebase-iam.json");
+        Resource resource = resolver.getResource("classpath:firebase-config.json");
 
         FileInputStream serviceAccount = new FileInputStream(resource.getFile());
 

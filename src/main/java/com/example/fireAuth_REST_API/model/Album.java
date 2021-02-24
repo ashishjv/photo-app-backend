@@ -7,10 +7,9 @@ import java.time.LocalDate;
 
 public class Album {
     private String id;
-    @Length(max = 10, message = "Only a maximum of 10 characters allowed for album name")
     private String name;
     private String coverPhotoUrl;
-    @ValidateEmail
+    /*@ValidateEmail*/
     private String createdBy;
     private LocalDate dateCreated;
 

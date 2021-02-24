@@ -2,15 +2,17 @@ package com.example.fireAuth_REST_API.model;
 
 import com.example.fireAuth_REST_API.validation.ValidateEmail;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.time.LocalDate;
 
 public class Comment {
     private String id;
+    @Indexed
     private String photoId;
-    @Length(min = 5, message = "Minimum 5 characters required to post comment")
+    @Length(min = 1, message = "Minimum 5 characters required to post comment")
     private String message;
-    @ValidateEmail
+//    @ValidateEmail
     private String createdBy;
     private LocalDate dateCreated;
 

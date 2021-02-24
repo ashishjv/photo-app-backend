@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/api")
 public class CommentResource {
 
     @Autowired
@@ -24,17 +24,31 @@ public class CommentResource {
     @Autowired
     private FirebaseService firebaseService;
 
-    @GetMapping
-    public List<Comment> getAllComments() {
-        return commentService.getAllComments();
-    }
-
-    @GetMapping("/id")
-    public Comment getCommentById(@RequestParam(name = "commentId") String commentId) {
+    @GetMapping("/photos/comment/{commentId}")
+    public Comment getCommentById(@PathVariable(name = "commentId") String commentId,
+                                  @RequestHeader(name = "idToken") String idToken) {
         return commentService.getCommentById(commentId);
     }
 
-    @PostMapping
+    @GetMapping("/photo/{photoId}/comments")
+    public List<Comment> getAllCommentsByPhotoId(@PathVariable("photoId") String photoId,
+                                                 @RequestHeader(name="idToken") String idToken)
+            throws IOException,
+            FirebaseAuthException,
+            InvalidTokenException,
+            UserNotAuthorizedException {
+
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        if (firebaseUser != null) {
+            return commentService.getAllCommentsByPhotoId(photoId);
+        }
+        else {
+            throw new InvalidTokenException();
+        }
+    }
+
+    @PostMapping("/photos/comments")
     public Comment saveComment(@RequestBody @Valid Comment comment,
                                @RequestHeader(name = "idToken") String idToken)
             throws
@@ -55,7 +69,7 @@ public class CommentResource {
         }
     }
 
-    @PutMapping
+    @PutMapping("/photos/comment/{commentId}")
     public Comment updateComment(@RequestBody @Valid Comment comment,
                                  @RequestHeader(name = "idToken") String idToken)
             throws
@@ -80,7 +94,7 @@ public class CommentResource {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/photos/comment/{commentId}")
     public String deleteComment(@RequestParam(name = "commentId") String commentId,
                                 @RequestHeader(name = "idToken") String idToken)
             throws
@@ -106,4 +120,6 @@ public class CommentResource {
             throw new InvalidTokenException();
         }
     }
+
+
 }
