@@ -3,9 +3,9 @@
 REST APIs: Java Spring-Boot
 Swagger2: API Documentation
 
-AWS-S3: File handlers
-GCP Firebase: IAM handlers
-MongoDB: NoSQL Repository handlers
+AWS-S3: File handlers<br>
+GCP Firebase: IAM handlers<br>
+MongoDB: NoSQL Repository handlers<br>
 
 For the application to run add the following files in src/main/resources/
 1. application.properties - with MongoDB credentials
