@@ -1,7 +1,7 @@
 # Photo Album application backend
 
-REST APIs: Java Spring-Boot
-Swagger2: API Documentation
+REST APIs: Java Spring-Boot<br>
+Swagger2: API Documentation<br>
 
 AWS-S3: File handlers<br>
 GCP Firebase: IAM handlers<br>
