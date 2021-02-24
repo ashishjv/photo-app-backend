@@ -1,4 +1,4 @@
-# Angular Photo Album application backend
+# Photo Album application backend
 
 REST APIs: Java Spring-Boot
 Swagger2: API Documentation
